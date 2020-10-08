@@ -1,8 +1,7 @@
 import pandas as pd
 import PySimpleGUI as sg
 import re
-from random import randint, seed
-import time
+import random
 
 
 def arg_parse():
@@ -34,38 +33,32 @@ file_name = args[2] + ".csv"
 if args[2] == "":
     file_name = "test.csv"
 
-generated_words_without_number = []
+generated_words = []
 digit_regexp = "\d\d\d\d"
 if digit != "" and int(digit) == 3:
     digit_regexp = "\d\d\d"
-
 for p in phrases:
     if p == "":
         continue
 
     match = re.search(digit_regexp, p)
     if match is None:
-        generated_words_without_number.append(p)
+        generated_words.append(p)
         continue
 
     end = re.search(digit_regexp, p).end()
     if end + 2 < len(p) and (p[end:end + 2] == "ml" or p[end:end + 2] == "kg" or p[end:end + 2] == "cm"):
-        generated_words_without_number.append(p)
+        generated_words.append(p)
         continue
 
-    rand = randint(1000, 9999)
+    rand = random.randint(1000, 9999)
     if digit != "" and int(digit) == 3:
-        rand = randint(100, 999)
+        rand = random.randint(100, 999)
+    random.seed(p)
+
     new_p = re.sub(digit_regexp, str(rand), p)
-    generated_words_without_number.append(new_p)
-
-    seed(time.process_time())
-
-generated_words = []
-for g in generated_words_without_number:
-    new_g = re.sub(" +", " ", g)
-    new_g = re.sub("[()]", "", new_g)
-    generated_words.append(new_g)
+    generated_words.append(new_p)
 
 df = pd.DataFrame(generated_words)
 df.to_csv(file_name, encoding="utf-8-sig")
+
