@@ -1,6 +1,9 @@
 import pandas as pd
 import PySimpleGUI as sg
 import re
+from random import randint, seed
+import time
+
 
 def arg_parse():
     layout = [
@@ -12,7 +15,7 @@ def arg_parse():
         [sg.InputText()],
         [sg.Submit(), sg.Cancel()]]
 
-    window = sg.Window('문장 랜덤 생성기', layout)
+    window = sg.Window('문장 숫자 랜덤 생성기', layout)
 
     event, values = window.read()
     window.close()
@@ -22,18 +25,18 @@ def arg_parse():
 
     return values
 
+
 args = arg_parse()
 
 phrases = args[0].split("\n")
 digit = args[1]
-file_name = args[2]+".csv"
+file_name = args[2] + ".csv"
 if args[2] == "":
     file_name = "test.csv"
 
 generated_words_without_number = []
-
 digit_regexp = "\d\d\d\d"
-if int(digit) == 3:
+if digit != "" and int(digit) == 3:
     digit_regexp = "\d\d\d"
 
 for p in phrases:
@@ -50,15 +53,19 @@ for p in phrases:
         generated_words_without_number.append(p)
         continue
 
-    new_p = re.sub(digit_regexp, "", p)
+    rand = randint(1000, 9999)
+    if digit != "" and int(digit) == 3:
+        rand = randint(100, 999)
+    new_p = re.sub(digit_regexp, str(rand), p)
     generated_words_without_number.append(new_p)
+
+    seed(time.process_time())
 
 generated_words = []
 for g in generated_words_without_number:
     new_g = re.sub(" +", " ", g)
     new_g = re.sub("[()]", "", new_g)
     generated_words.append(new_g)
-
 
 print(len(generated_words))
 df = pd.DataFrame(generated_words)
