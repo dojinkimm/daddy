@@ -9,7 +9,7 @@ def arg_parse():
     layout = [
         [sg.Text('문장을 입력하세요', size=(25, 1))],
         [sg.InputText()],
-        [sg.Text('제거할 숫자의 길이를 입력해주세요')],
+        [sg.Text('변경할 숫자의 길이를 입력해주세요')],
         [sg.InputText()],
         [sg.Text('저장할 파일의 이름을 입력하세요')],
         [sg.InputText()],
@@ -67,6 +67,5 @@ for g in generated_words_without_number:
     new_g = re.sub("[()]", "", new_g)
     generated_words.append(new_g)
 
-print(len(generated_words))
 df = pd.DataFrame(generated_words)
 df.to_csv(file_name, encoding="utf-8-sig")
