@@ -1,24 +1,33 @@
+"""
+문장 리스트에서 4자리 혹은 3자리 숫자를 찾아서 숫자를 제거해주는 GUI 프로그램
+
+GUI Program that finds four digit or three digit number in a list of sentences,
+and deletes numbers
+"""
+
+import re
+
 import pandas as pd
 import PySimpleGUI as sg
-import re
 
 
 def arg_parse():
     layout = [
-        [sg.Text('문장을 입력하세요', size=(25, 1))],
+        [sg.Text("문장을 입력하세요", size=(25, 1))],
         [sg.InputText()],
-        [sg.Text('제거할 숫자의 길이를 입력해주세요')],
+        [sg.Text("제거할 숫자의 길이를 입력해주세요")],
         [sg.InputText()],
-        [sg.Text('저장할 파일의 이름을 입력하세요')],
+        [sg.Text("저장할 파일의 이름을 입력하세요")],
         [sg.InputText()],
-        [sg.Submit(), sg.Cancel()]]
+        [sg.Submit(), sg.Cancel()],
+    ]
 
-    window = sg.Window('문장 숫자 제거기', layout)
+    window = sg.Window("문장 숫자 제거기", layout)
 
     event, values = window.read()
     window.close()
 
-    if event is None or event == 'Cancel':
+    if event is None or event == "Cancel":
         exit()
 
     return values
@@ -47,7 +56,11 @@ for p in phrases:
         continue
 
     end = re.search(digit_regexp, p).end()
-    if end + 2 < len(p) and (p[end:end + 2] == "ml" or p[end:end + 2] == "kg" or p[end:end + 2] == "cm"):
+    if end + 2 < len(p) and (
+        p[end : end + 2] == "ml"
+        or p[end : end + 2] == "kg"
+        or p[end : end + 2] == "cm"
+    ):
         generated_words.append(p)
         continue
 

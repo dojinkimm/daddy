@@ -1,25 +1,35 @@
+"""
+문장 리스트에서 4자리 혹은 3자리 숫자를 찾아서 랜덤 숫자로 변경해주는 GUI 프로그램
+
+GUI Program that finds four digit or three digit number in a list of sentences,
+and changes to random number
+"""
+
+
+import random
+import re
+
 import pandas as pd
 import PySimpleGUI as sg
-import re
-import random
 
 
 def arg_parse():
     layout = [
-        [sg.Text('문장을 입력하세요', size=(25, 1))],
+        [sg.Text("문장을 입력하세요", size=(25, 1))],
         [sg.InputText()],
-        [sg.Text('변경할 숫자의 길이를 입력해주세요')],
+        [sg.Text("변경할 숫자의 길이를 입력해주세요")],
         [sg.InputText()],
-        [sg.Text('저장할 파일의 이름을 입력하세요')],
+        [sg.Text("저장할 파일의 이름을 입력하세요")],
         [sg.InputText()],
-        [sg.Submit(), sg.Cancel()]]
+        [sg.Submit(), sg.Cancel()],
+    ]
 
-    window = sg.Window('문장 숫자 랜덤 생성기', layout)
+    window = sg.Window("문장 숫자 랜덤 생성기", layout)
 
     event, values = window.read()
     window.close()
 
-    if event is None or event == 'Cancel':
+    if event is None or event == "Cancel":
         exit()
 
     return values
@@ -47,7 +57,11 @@ for p in phrases:
         continue
 
     end = re.search(digit_regexp, p).end()
-    if end + 2 < len(p) and (p[end:end + 2] == "ml" or p[end:end + 2] == "kg" or p[end:end + 2] == "cm"):
+    if end + 2 < len(p) and (
+        p[end : end + 2] == "ml"
+        or p[end : end + 2] == "kg"
+        or p[end : end + 2] == "cm"
+    ):
         generated_words.append(p)
         continue
 
@@ -61,4 +75,3 @@ for p in phrases:
 
 df = pd.DataFrame(generated_words)
 df.to_csv(file_name, encoding="utf-8-sig")
-

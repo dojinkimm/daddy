@@ -1,2 +1,5 @@
-pandas
-PySimpleGUI
+-i https://pypi.org/simple
+pandas==1.1.0
+PySimpleGUI==4.28.0
+black==19.10b0
+isort==4.3.21
