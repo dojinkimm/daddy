@@ -41,9 +41,9 @@ file_name = args[2] + ".csv"
 if args[2] == "":
     file_name = "test.csv"
 
-digit_regexp = "\d\d\d\d"
+digit_regexp = "\d\d\d\d((?=[^kg|^Kg|^ml|^cm]))|\d\d\d\d$"
 if digit != "" and int(digit) == 3:
-    digit_regexp = "\d\d\d"
+    digit_regexp = "\d\d\d((?=[^kg|^Kg|^ml|^cm]))|\d\d\d$"
 
 generated_words = []
 for p in phrases:
@@ -52,15 +52,6 @@ for p in phrases:
 
     match = re.search(digit_regexp, p)
     if match is None:
-        generated_words.append(p)
-        continue
-
-    end = re.search(digit_regexp, p).end()
-    if end + 2 < len(p) and (
-        p[end : end + 2] == "ml"
-        or p[end : end + 2] == "kg"
-        or p[end : end + 2] == "cm"
-    ):
         generated_words.append(p)
         continue
 
