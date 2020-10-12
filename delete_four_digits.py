@@ -41,9 +41,9 @@ file_name = args[2] + ".csv"
 if args[2] == "":
     file_name = "test.csv"
 
-digit_regexp = "\d\d\d\d((?=[^kg|^Kg|^ml|^cm]))|\d\d\d\d$"
+digit_regexp = "\d\d\d\d((?=[^kg|^Kg|^ml|^cm|^mm|^MM|^WT]))|\d\d\d\d$"
 if digit != "" and int(digit) == 3:
-    digit_regexp = "\d\d\d((?=[^kg|^Kg|^ml|^cm]))|\d\d\d$"
+    digit_regexp = "\d\d\d\d((?=[^kg|^Kg|^ml|^cm|^mm|^MM|^WT]))|\d\d\d\d$"
 
 generated_words = []
 for p in phrases:
