@@ -10,17 +10,39 @@ with open("sellcode_2020.csv", newline="") as csvfile:
         if i.get("code2") != "":
             cur[i.get("code2")] = i.get("title2")
 
-print(len(past), len(cur))
+keys = []
+for k, v in past.items():
+    if k not in cur:
+        keys.append(k)
 
+for k in keys:
+    del past[k]
 
+past_list = []
+for k, v in past.items():
+    past_list.append([k, v])
 
-# df = pd.DataFrame(exp_time)
-# df.to_csv("calculate_time_4.csv", encoding="utf-8-sig")
+cur_list = []
+for k, v in cur.items():
+    cur_list.append([k, v])
 
-# df = pd.DataFrame(arr)
-# df.to_csv("result.csv", encoding="utf-8-sig")
+arr = []
+for i in range(len(past_list)):
+    arr.append({
+        "code1": past_list[i][0],
+        "title1": past_list[i][1],
+        "code2": cur_list[i][0],
+        "title2": cur_list[i][1],
+    })
 
-# xl_file = pd.ExcelFile(file_name)
-#
-# dfs = {sheet_name: xl_file.parse(sheet_name)
-#           for sheet_name in xl_file.sheet_names}
+arr.append({
+    "code1": "",
+    "title1": "",
+    "code2": cur_list[len(cur_list)-1][0],
+    "title2": cur_list[len(cur_list)-1][1],
+})
+
+print(len(arr))
+
+df = pd.DataFrame(arr)
+df.to_csv("testtest.csv", encoding="utf-8-sig")
